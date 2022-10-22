@@ -19,3 +19,36 @@
     
 
 */
+#include <stdio.h> 
+
+// Function prototypes
+void displayMenu(); 
+int promptUser();
+
+
+int main()
+{
+
+    int input; 
+    bool gameStatus = true; 
+
+    while(gameStatus == true)
+    {
+
+        switch(input)
+
+
+    }
+
+
+
+}
+
+
+void displayMenu()
+{
+    printf("Press 1 to play a game\n");
+    printf("Press 2 tp change the max number\n");
+    printf("Press 3 to quit\n");
+
+}
