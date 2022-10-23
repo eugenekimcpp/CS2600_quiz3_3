@@ -27,13 +27,13 @@
 void displayMenu(); 
 int promptUser();
 int getGuess(); //promt the user and get the guess input
-bool checkGuess(int a, int target); // true if correct guess, false otherwise
-void suggestGuess(int a, int target); // suggest user if input is too low or high
+int checkGuess(int target); // true if correct guess, false otherwise
+void suggestGuess(int target); // suggest user if input is too low or high
 
 
 // Global and Static variables
 // Static variable max that saves the user defined max, max is 10
-static int Max = 10;
+static int max = 10;
 int guess = 0;
 
 
@@ -49,7 +49,7 @@ int main()
 
 
     int menuInput; 
-    bool gameStatus = true; 
+    int gameStatus = 1; 
 
     do {
         // NEW GAME STARTS HERE
@@ -58,18 +58,39 @@ int main()
 
         // reset the guess at every start of game
         guess = 0; 
-        bool check = false; 
+        int check = 0; 
+        int correctInput;
+
         switch(menuInput)
         {
             case 1: 
                 // actual game implements here
-                while (check == false)
+                while (check == 0)
                 {
                     // this guess will continue until matching found
-                    guess = getGuess();
-                    check = checkGuess(guess, target);
+                    correctInput = getGuess();
+                    if(correctInput == 1)
+                    {
+                        check = checkGuess(target);
+                        if (check == 1)
+                        {
+                            // if guess is correct
+                            prinft("Your guess is correct!!\n");
+                        }
+                        else{
+                            continue;
+                        }
+
+                    }
+                    else
+                    {
+                        // when q encounter
+                        gameStatus == 1; // game should restart so true
+                        check == 1; // game should be over so true
+                        break; 
+                    }
                 }
-                // out the loop when have correct guess
+                // out the loop when have correct guess or restart 
 
                 break;
             case 2:
@@ -78,7 +99,7 @@ int main()
 
             case 3: 
                 printf("Thank you for playing this game! \n");
-                gameStatus = false;
+                gameStatus = 0;
                 break; 
             default: 
                 printf("Invalid menu input, please pick again...");
@@ -86,7 +107,7 @@ int main()
         } // end switch
 
 
-    } while (gameStatus == true);
+    } while (gameStatus == 1);
 
 
 
@@ -110,32 +131,45 @@ int promptUser()
 
 }
 
-int userGuess()
+int getGuess()
 {
     int userInput; 
     printf("Please enter a number to guess: ");
     scanf("%d", &userInput);
-
-    return userInput; 
+    while(1)
+    {
+        if((userInput > 0) && (userInput < max))
+        {
+            // when user inputs correct range of guess
+            guess = userInput;
+            return 1;
+        }
+        else if(userInput == 113)
+        {
+            // when user enters 'q'
+            return 0;
+        }
+        // out of rnage + not 'q', then loop again until correct input
+    }
 
 }
 
-bool checkGuess(int a, int target) 
+int checkGuess(int target) 
 {
-    if (a == target)
+    if (guess == target)
     { 
-        return true; 
+        return 1; 
     }
     else 
     {
-        suggestGuess(a, target);
-        return false; 
+        suggestGuess(target);
+        return 0; 
     }
 }
 
-void suggestGuess(int a, int target)
+void suggestGuess(int target)
 {
-    if(a < target) 
+    if(guess < target) 
     {
         printf("The guess is too low\n");
     }
