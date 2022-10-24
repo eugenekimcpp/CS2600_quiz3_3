@@ -53,6 +53,7 @@ int main()
 
     do {
         // NEW GAME STARTS HERE
+        printf("\n\n");
         displayMenu();
         menuInput = promptUser();
 
@@ -75,7 +76,7 @@ int main()
                         if (check == 1)
                         {
                             // if guess is correct
-                            prinft("Your guess is correct!!\n");
+                            printf("Your guess is correct!!\n");
                         }
                         else{
                             continue;
@@ -85,13 +86,12 @@ int main()
                     else
                     {
                         // when q encounter
-                        gameStatus == 1; // game should restart so true
-                        check == 1; // game should be over so true
+                        gameStatus = 1; // game should restart so true
+                        check = 1; // game should be over so true
                         break; 
                     }
                 }
                 // out the loop when have correct guess or restart 
-
                 break;
             case 2:
 
@@ -133,24 +133,34 @@ int promptUser()
 
 int getGuess()
 {
-    int userInput; 
-    printf("Please enter a number to guess: ");
-    scanf("%d", &userInput);
-    while(1)
-    {
+    
+    int loop = 1;
+    
+   do{
+        int userInput; 
+        printf("Please enter a number to guess: ");
+        scanf("%d", &userInput);
+
         if((userInput > 0) && (userInput < max))
         {
             // when user inputs correct range of guess
             guess = userInput;
+            loop = 0;
             return 1;
         }
-        else if(userInput == 113)
+        else if((char)userInput == 'q')
         {
             // when user enters 'q'
+            loop = 0;
             return 0;
         }
-        // out of rnage + not 'q', then loop again until correct input
-    }
+        else{
+            printf("Invaild input was received, enter a valid input\n");
+            // out of rnage + not 'q', then loop again until correct input
+        }
+    }while (loop == 1);
+
+    return 0;
 
 }
 
